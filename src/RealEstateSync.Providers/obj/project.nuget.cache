@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "913oB+QLd70=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Public\\portfolio-edu-projects\\RealEstateSync\\src\\RealEstateSync.Providers\\RealEstateSync.Providers.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\diego\\.nuget\\packages\\csvhelper\\33.1.0\\csvhelper.33.1.0.nupkg.sha512",
+    "C:\\Users\\diego\\.nuget\\packages\\htmlagilitypack\\1.12.4\\htmlagilitypack.1.12.4.nupkg.sha512"
+  ],
+  "logs": []
+}
