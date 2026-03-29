@@ -1,0 +1,79 @@
+﻿@model RealEstateSync.Web.Models.HistoryViewModel
+
+@{
+    ViewData["Title"] = "Search History";
+}
+
+<h2>Search History</h2>
+
+<!-- Painel de estatísticas -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total</h5>
+                <p class="card-text display-6">@Model.TotalItems</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Found</h5>
+                <p class="card-text display-6">@Model.FoundItems</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Not Found</h5>
+                <p class="card-text display-6">@Model.NotFoundItems</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Errors</h5>
+                <p class="card-text display-6">@Model.ErrorItems</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabela de histórico -->
+@if (Model.Entries == null || !Model.Entries.Any())
+{
+    <p>No history entries yet.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>File</th>
+                <th>Total</th>
+                <th>Found</th>
+                <th>Not Found</th>
+                <th>Errors</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in Model.Entries)
+            {
+                <tr>
+                    <td>@e.SearchDate.ToLocalTime()</td>
+                    <td>@e.FileName</td>
+                    <td>@e.TotalItems</td>
+                    <td>@e.FoundCount</td>
+                    <td>@e.NotFoundCount</td>
+                    <td>@e.ErrorCount</td>
+                    <td>@e.Notes</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,2 +1,8 @@
 <Solution>
+  <Project Path="src/RealEstateSync.Core/RealEstateSync.Core.csproj" />
+  <Project Path="src/RealEstateSync.Infra/RealEstateSync.Infra.csproj" />
+  <Project Path="src/RealEstateSync.Providers/RealEstateSync.Providers.csproj" />
+  <Project Path="src/RealEstateSync.Web/RealEstateSync.Web.csproj" />
+  <Project Path="tests/RealEstateSync.Core.Tests/RealEstateSync.Core.Tests.csproj" />
+  <Project Path="tests/RealEstateSync.Providers.Tests/RealEstateSync.Providers.Tests.csproj" />
 </Solution>

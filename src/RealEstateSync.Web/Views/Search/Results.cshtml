@@ -1,0 +1,98 @@
+﻿@model RealEstateSync.Web.Models.SearchResultsViewModel
+
+@{
+    ViewData["Title"] = "Search Results";
+
+    string GetStatusBadgeClass(RealEstateSync.Core.Models.RealEstateStatus status)
+    {
+        return status switch
+        {
+            RealEstateSync.Core.Models.RealEstateStatus.Found => "badge bg-success",
+            RealEstateSync.Core.Models.RealEstateStatus.NotFound => "badge bg-warning text-dark",
+            RealEstateSync.Core.Models.RealEstateStatus.Error => "badge bg-danger",
+            _ => "badge bg-secondary"
+        };
+    }
+}
+
+<h2>Search Results</h2>
+
+<!-- Resumo da execução -->
+<div class="row mb-4 mt-3">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total</h5>
+                <p class="card-text display-6">@Model.TotalItems</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Found</h5>
+                <p class="card-text display-6">@Model.FoundItems</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Not Found</h5>
+                <p class="card-text display-6">@Model.NotFoundItems</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Errors</h5>
+                <p class="card-text display-6">@Model.ErrorItems</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Results == null || !Model.Results.Any())
+{
+    <p>No results.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Portal</th>
+                <th>Status</th>
+                <th>Details</th>
+                <th>Error</th>
+                <th>Search Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.Results)
+            {
+                <tr>
+                    <td>@r.Code</td>
+                    <td>@r.SearchPortal</td>
+                    <td>
+                        <span class="@GetStatusBadgeClass(r.Status)">
+                            @r.Status
+                        </span>
+                    </td>
+                    <td>@r.Details</td>
+                    <td>@r.ErrorMessage</td>
+                    <td>@r.SearchDate.ToLocalTime()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Botão para nova busca -->
+<div class="mt-3">
+    <a asp-controller="Search" asp-action="Index" class="btn btn-outline-primary">
+        New Search
+    </a>
+</div>
