@@ -11,6 +11,7 @@ namespace RealEstateSync.Core.Interfaces
 
         Task<SearchResult> SearchAsync(
             RealEstateItem item,
+            int itemIndex,
             CancellationToken cancellationToken = default);
     }
 }

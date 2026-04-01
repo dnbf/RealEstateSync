@@ -9,7 +9,7 @@ namespace RealEstateSync.Providers.Providers
     /// <summary>
     /// Provider fake da OLX para o MVP inicial.
     /// </summary>
-    public class OlxFakeProvider: ISearchProvider
+    public class OlxFakeProvider
     {
         public string Name => "OLX";
 

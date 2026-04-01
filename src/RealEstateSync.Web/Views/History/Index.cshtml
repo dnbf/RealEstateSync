@@ -1,60 +1,64 @@
-﻿@model RealEstateSync.Web.Models.HistoryViewModel
+﻿@using RealEstateSync.Core.Models
+@model RealEstateSync.Web.Models.HistoryViewModel
 
 @{
     ViewData["Title"] = "Search History";
 }
 
-<h2>Search History</h2>
+<h2 class="mb-4">Search History</h2>
 
-<!-- Painel de estatísticas -->
+@* Cards de resumo *@
 <div class="row mb-4">
     <div class="col-md-3">
-        <div class="card text-white bg-primary mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Total</h5>
-                <p class="card-text display-6">@Model.TotalItems</p>
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h6 class="card-title">Sessions</h6>
+                <p class="card-text display-6 fw-bold">@Model.TotalSessions</p>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-white bg-success mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Found</h5>
-                <p class="card-text display-6">@Model.FoundItems</p>
+        <div class="card text-white bg-secondary">
+            <div class="card-body text-center">
+                <h6 class="card-title">Total Items</h6>
+                <p class="card-text display-6 fw-bold">@Model.TotalItems</p>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-white bg-warning mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Not Found</h5>
-                <p class="card-text display-6">@Model.NotFoundItems</p>
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h6 class="card-title">Found</h6>
+                <p class="card-text display-6 fw-bold">@Model.TotalFound</p>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-white bg-danger mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Errors</h5>
-                <p class="card-text display-6">@Model.ErrorItems</p>
+        <div class="card text-white bg-danger">
+            <div class="card-body text-center">
+                <h6 class="card-title">Errors</h6>
+                <p class="card-text display-6 fw-bold">@Model.TotalErrors</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Tabela de histórico -->
-@if (Model.Entries == null || !Model.Entries.Any())
+@* Tabela de sessões *@
+@if (Model.Entries == null || Model.Entries.Count == 0)
 {
-    <p>No history entries yet.</p>
+    <div class="alert alert-info">
+        No search history found. Upload a CSV file on the Search screen to start.
+    </div>
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
             <tr>
+                <th>#</th>
+                <th>File Name</th>
                 <th>Date</th>
-                <th>File</th>
-                <th>Total</th>
+                <th>Total Items</th>
                 <th>Found</th>
                 <th>Not Found</th>
                 <th>Errors</th>
@@ -62,16 +66,17 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var e in Model.Entries)
+            @foreach (var entry in Model.Entries)
             {
                 <tr>
-                    <td>@e.SearchDate.ToLocalTime()</td>
-                    <td>@e.FileName</td>
-                    <td>@e.TotalItems</td>
-                    <td>@e.FoundCount</td>
-                    <td>@e.NotFoundCount</td>
-                    <td>@e.ErrorCount</td>
-                    <td>@e.Notes</td>
+                    <td>@entry.Id</td>
+                    <td><strong>@entry.FileName</strong></td>
+                    <td>@entry.SearchDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                    <td class="text-center">@entry.TotalItems</td>
+                    <td class="text-center text-success fw-bold">@entry.FoundCount</td>
+                    <td class="text-center text-warning fw-bold">@entry.NotFoundCount</td>
+                    <td class="text-center text-danger fw-bold">@entry.ErrorCount</td>
+                    <td>@(entry.Notes ?? "—")</td>
                 </tr>
             }
         </tbody>

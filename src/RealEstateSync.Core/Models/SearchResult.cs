@@ -20,5 +20,12 @@ namespace RealEstateSync.Core.Models
         public string? Details { get; set; }
         public string? ErrorMessage { get; set; }
         public DateTime SearchDate { get; set; } = DateTime.UtcNow;
+
+        // Novos campos
+        public string? ListingTitle { get; set; }
+        public string? ListingPrice { get; set; }
+        public string? ListingUrl { get; set; }
+        public string? ListingLocation { get; set; }
+
     }
 }

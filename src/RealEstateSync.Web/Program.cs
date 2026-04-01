@@ -3,6 +3,7 @@ using RealEstateSync.Core.Interfaces;
 using RealEstateSync.Core.Services;
 using RealEstateSync.Infra.Data;
 using RealEstateSync.Infra.Repositories;
+using RealEstateSync.Providers;
 using RealEstateSync.Providers.Providers;
 using RealEstateSync.Providers.Sources;
 
@@ -23,9 +24,33 @@ builder.Services.AddScoped<ISearchOrchestrator, SearchOrchestrator>();
 builder.Services.AddScoped<ISearchHistoryRepository, SearchHistoryRepository>();
 // (SearchConfigRepository vai depois, se quiser)
 
-// Providers
-builder.Services.AddScoped<IHtmlSource, LocalFileHtmlSource>();
-builder.Services.AddScoped<ISearchProvider, OlxHttpProvider>();
+// OLX provider
+builder.Services.AddScoped<ISearchProvider>(sp =>
+{
+    var env = sp.GetRequiredService<IWebHostEnvironment>();
+
+    // ContentRootPath = ...\RealEstateSync.Web
+    // Queremos ...\RealEstateSync.Providers\Samples\olx_sample.html
+    var providersRoot = Path.Combine(env.ContentRootPath, "..", "RealEstateSync.Providers");
+    var samplesPath = Path.Combine(providersRoot, "Samples");
+    var olxPath = Path.Combine(samplesPath, "olx_sample.html");
+
+    var htmlSource = new LocalFileHtmlSource(olxPath);
+    return new OlxHttpProvider(htmlSource);
+});
+
+// ZAP provider
+builder.Services.AddScoped<ISearchProvider>(sp =>
+{
+    var env = sp.GetRequiredService<IWebHostEnvironment>();
+
+    var providersRoot = Path.Combine(env.ContentRootPath, "..", "RealEstateSync.Providers");
+    var samplesPath = Path.Combine(providersRoot, "Samples");
+    var zapPath = Path.Combine(samplesPath, "zap_sample.html");
+
+    var htmlSource = new ZapFileHtmlSource(zapPath);
+    return new ZapMockProvider(htmlSource);
+});
 
 var app = builder.Build();
 

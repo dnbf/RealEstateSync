@@ -14,6 +14,38 @@ namespace RealEstateSync.Infra.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<IReadOnlyList<SearchHistoryEntry>> SearchAsync(
+    DateTime? from,
+    DateTime? to,
+    string? fileName,
+    CancellationToken cancellationToken = default)
+        {
+            var query = _dbContext.SearchHistoryEntries.AsQueryable();
+
+            if (from.HasValue)
+            {
+                query = query.Where(x => x.SearchDate >= from.Value);
+            }
+
+            if (to.HasValue)
+            {
+                // inclui até o final do dia
+                var end = to.Value.Date.AddDays(1).AddTicks(-1);
+                query = query.Where(x => x.SearchDate <= end);
+            }
+
+            if (!string.IsNullOrWhiteSpace(fileName))
+            {
+                var normalized = fileName.Trim().ToLower();
+                query = query.Where(x => x.FileName.ToLower().Contains(normalized));
+            }
+
+            return await query
+                .OrderByDescending(x => x.SearchDate)
+                .ToListAsync(cancellationToken);
+        }
+
+
         public async Task AddAsync(SearchHistoryEntry entry, CancellationToken cancellationToken = default)
         {
             await _dbContext.SearchHistoryEntries.AddAsync(entry, cancellationToken);

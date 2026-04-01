@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
-using RealEstateSync.Core.Models;
+﻿using RealEstateSync.Core.Models;
 
 namespace RealEstateSync.Web.Models
 {
     public class HistoryViewModel
     {
-        public IReadOnlyList<SearchHistoryEntry> Entries { get; set; } =
-            new List<SearchHistoryEntry>();
+        public IReadOnlyList<SearchHistoryEntry> Entries { get; set; }
+            = new List<SearchHistoryEntry>();
 
+        // Totais agregados de todas as sessões
+        public int TotalSessions { get; set; }
         public int TotalItems { get; set; }
-        public int FoundItems { get; set; }
-        public int NotFoundItems { get; set; }
-        public int ErrorItems { get; set; }
+        public int TotalFound { get; set; }
+        public int TotalNotFound { get; set; }
+        public int TotalErrors { get; set; }
     }
 }

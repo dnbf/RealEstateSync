@@ -7,9 +7,7 @@ namespace RealEstateSync.Core.Interfaces
 {
     public interface ISearchHistoryRepository
     {
-        Task AddAsync(
-           SearchHistoryEntry entry,
-           CancellationToken cancellationToken = default);
+        Task AddAsync(SearchHistoryEntry entry, CancellationToken cancellationToken = default);
 
         Task<IReadOnlyList<SearchHistoryEntry>> GetRecentAsync(
             int count,
@@ -18,6 +16,12 @@ namespace RealEstateSync.Core.Interfaces
         Task<(int total, int found, int notFound, int errors)> GetAggregatedStatsAsync(
             DateTime from,
             DateTime to,
+            CancellationToken cancellationToken = default);
+
+        Task<IReadOnlyList<SearchHistoryEntry>> SearchAsync(
+            DateTime? from,
+            DateTime? to,
+            string? fileName,
             CancellationToken cancellationToken = default);
     }
 }

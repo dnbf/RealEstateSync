@@ -16,16 +16,16 @@ namespace RealEstateSync.Core.Services
         }
 
         public async Task<IReadOnlyList<SearchResult>> SearchAsync(
-            IReadOnlyList<RealEstateItem> items,
-            CancellationToken cancellationToken = default)
+    IReadOnlyList<RealEstateItem> items,
+    CancellationToken cancellationToken = default)
         {
             var results = new List<SearchResult>();
 
-            foreach (var item in items)
+            for (int i = 0; i < items.Count; i++)
             {
                 foreach (var provider in _providers)
                 {
-                    var result = await provider.SearchAsync(item, cancellationToken);
+                    var result = await provider.SearchAsync(items[i], i, cancellationToken);
                     results.Add(result);
                 }
             }

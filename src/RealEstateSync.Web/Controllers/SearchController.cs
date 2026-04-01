@@ -53,19 +53,19 @@ namespace RealEstateSync.Web.Controllers
             var notFound = results.Count(r => r.Status == RealEstateStatus.NotFound);
             var errors = results.Count(r => r.Status == RealEstateStatus.Error);
 
-            //// Salva histórico
-            //var entry = new SearchHistoryEntry
-            //{
-            //    FileName = file.FileName,
-            //    SearchDate = DateTime.UtcNow,
-            //    TotalItems = total,
-            //    FoundCount = found,
-            //    NotFoundCount = notFound,
-            //    ErrorCount = errors,
-            //    Notes = "Automatic import"
-            //};
+            // Salva histórico
+            var entry = new SearchHistoryEntry
+            {
+                FileName = file.FileName,
+                SearchDate = DateTime.UtcNow,
+                TotalItems = total,
+                FoundCount = found,
+                NotFoundCount = notFound,
+                ErrorCount = errors,
+                Notes = "Automatic import"
+            };
 
-            //await _searchHistoryRepository.AddAsync(entry, cancellationToken);
+            await _searchHistoryRepository.AddAsync(entry, cancellationToken);
 
             //return View("Results", results);
 

@@ -770,6 +770,10 @@
             "HtmlAgilityPack": {
               "target": "Package",
               "version": "[1.12.4, )"
+            },
+            "Microsoft.AspNetCore.Hosting": {
+              "target": "Package",
+              "version": "[2.3.9, )"
             }
           },
           "imports": [
