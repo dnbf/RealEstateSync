@@ -9,6 +9,7 @@ using System.Text;
 
 namespace RealEstateSync.Core.Services
 {
+
     public class CsvReaderService: ICsvReader
     {
         public async Task<IReadOnlyList<RealEstateItem>> ReadAsync(
