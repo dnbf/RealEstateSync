@@ -1,5 +1,6 @@
 name: Deploy RealEstateSync to AWS Elastic Beanstalk
 
+
 on:
   push:
     branches:
