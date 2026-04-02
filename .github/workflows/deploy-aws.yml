@@ -1,0 +1,44 @@
+name: Deploy RealEstateSync to AWS Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main   # ou o branch que você usa
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependências
+        run: dotnet restore src/RealEstateSync.Web/RealEstateSync.Web.csproj
+
+      - name: Publicar aplicação
+        run: |
+          dotnet publish src/RealEstateSync.Web/RealEstateSync.Web.csproj \
+            -c Release \
+            -o ./publish
+
+      - name: Zipar artefato
+        run: |
+          cd publish
+          zip -r ../deploy.zip .
+
+      - name: Deploy para Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: RealEstateSync
+          environment_name: realestatesync-env     # use exatamente o nome do env
+          version_label: ${{ github.sha }}
+          region: sa-east-1                        # ajustado pela sua região
+          deployment_package: deploy.zip

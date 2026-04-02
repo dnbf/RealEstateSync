@@ -8,6 +8,12 @@ using RealEstateSync.Providers.Providers;
 using RealEstateSync.Providers.Sources;
 
 var builder = WebApplication.CreateBuilder(args);
+//Enviorment variables and appsettings.json
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables();
+
 
 builder.Services.AddControllersWithViews();
 
@@ -70,5 +76,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Search}/{action=Index}/{id?}");
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
