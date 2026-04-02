@@ -35,11 +35,8 @@ builder.Services.AddScoped<ISearchProvider>(sp =>
 {
     var env = sp.GetRequiredService<IWebHostEnvironment>();
 
-    // ContentRootPath = ...\RealEstateSync.Web
-    // Queremos ...\RealEstateSync.Providers\Samples\olx_sample.html
-    var providersRoot = Path.Combine(env.ContentRootPath, "..", "RealEstateSync.Providers");
-    var samplesPath = Path.Combine(providersRoot, "Samples");
-    var olxPath = Path.Combine(samplesPath, "olx_sample.html");
+    // WebRootPath = wwwroot (funciona local e em produção no EB)
+    var olxPath = Path.Combine(env.WebRootPath, "samples", "olx_sample.html");
 
     var htmlSource = new LocalFileHtmlSource(olxPath);
     return new OlxHttpProvider(htmlSource);
@@ -50,9 +47,7 @@ builder.Services.AddScoped<ISearchProvider>(sp =>
 {
     var env = sp.GetRequiredService<IWebHostEnvironment>();
 
-    var providersRoot = Path.Combine(env.ContentRootPath, "..", "RealEstateSync.Providers");
-    var samplesPath = Path.Combine(providersRoot, "Samples");
-    var zapPath = Path.Combine(samplesPath, "zap_sample.html");
+    var zapPath = Path.Combine(env.WebRootPath, "samples", "zap_sample.html");
 
     var htmlSource = new ZapFileHtmlSource(zapPath);
     return new ZapMockProvider(htmlSource);

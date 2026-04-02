@@ -1,6 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
-  <ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	
+	<ItemGroup>
     <ProjectReference Include="..\RealEstateSync.Core\RealEstateSync.Core.csproj" />
     <ProjectReference Include="..\RealEstateSync.Infra\RealEstateSync.Infra.csproj" />
     <ProjectReference Include="..\RealEstateSync.Providers\RealEstateSync.Providers.csproj" />
@@ -14,6 +14,15 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
     <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\samples\olx_sample.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\samples\zap_sample.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <PropertyGroup>
